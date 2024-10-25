@@ -1,0 +1,68 @@
+---
+title: "Sample \\LaTeX File"
+author: Gosha Syunyaev
+date: today
+format: 
+    pdf:
+        keep_tex: true
+        pdf:
+        keep-tex: true
+        pdf-engine: pdflatex
+        number_sections: yes
+        cite-method: natbib
+        toc: false
+        code-block-bg: true
+        include-in-header: supp/mystyle.sty
+        fontsize: "12pt"
+        natbiboptions: "round,authoryear"
+execute: 
+    eval: true
+    echo: false
+    warning: false
+    error: true
+    cache: false
+margin-left: 0.8in
+margin-right: 0.8in
+margin-bottom: 0.8in
+margin-top: 0.8in
+bibliography: supp/sample.bib
+---
+
+
+
+```{r}
+
+library(ggplot2)
+
+# Example data: Usage of different programming IDEs around the world
+ides <- c("Visual Studio Code", "IntelliJ IDEA", "PyCharm", "Eclipse", "NetBeans", 
+          "Xcode", "Atom", "Sublime Text", "RStudio", "Vim")
+usage <- c(50.7, 17.5, 10.3, 7.2, 3.8, 
+           3.5, 2.9, 2.5, 1.8, 1.5)  # Usage in percentage
+
+# Create a data frame
+data <- data.frame(ides, usage)
+
+# Generate a bar plot
+ggplot(data, aes(x = reorder(ides, -usage), y = usage)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  theme_minimal() +
+  labs(title = "Top 10 Most Popular Programming IDEs",
+       x = "IDE",
+       y = "Percent") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggsave("02_paper/supp/ide_plot.jpeg", width = 8, height = 6, dpi = 300)
+
+```
+
+```{mermaid}
+graph LR;
+    C[C] -->|+| X[X];
+    C -->|-| Y[Y];
+    X -->|-| Y[Y];
+```
+
+
+:::refs
+:::
