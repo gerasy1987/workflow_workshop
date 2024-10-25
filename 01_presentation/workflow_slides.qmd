@@ -31,9 +31,17 @@ fontsize: 32px
 #| include: false
 #| eval: true
 
-pacman::p_load(tidyverse)
+pacman::p_load(tidyverse, webshot2)
 
 set.seed(20241022)
+
+webshot2::webshot(
+  url = "https://quarto.org/",
+  file = "01_presentation/supp/quarto-org.png",
+  vwidth = 1920 * 0.55,
+  vheight = 1080 * 0.55,
+  cliprect = "viewport"
+)
 
 ```
 
@@ -65,7 +73,9 @@ set.seed(20241022)
 
 . . .
 
-- [github.com/gerasy1987/dotfiles](https://github.com/gerasy1987/dotfiles) contains links to materials we will go over
+- [github.com/gerasy1987/workflow_workshop](https://github.com/gerasy1987/workflow_workshop) contains materials we will go over today
+
+- [github.com/gerasy1987/dotfiles](https://github.com/gerasy1987/dotfiles) contains useful links and configuration files
 
 # VS Code {background-image="supp/vscode.png" data-background-size=1200px}
 
@@ -74,16 +84,6 @@ set.seed(20241022)
 <br><br>
 
 :::columns
-:::{.column width="50%"}
-**Yes, if**
-
--   You often have to jump between applications, e.g. RStudio or LaTeX editor
-
--   You find yourself using mouse too often
-
--   You often struggle to find the right command or option
-:::
-
 :::{.column width="50%"}
 **No, if**
 
@@ -94,6 +94,15 @@ set.seed(20241022)
 -   You get overwhelmed by the need for customization
 :::
 
+:::{.column width="50%"}
+**Yes, if**
+
+-   You often have to jump between applications, e.g. RStudio or LaTeX editor
+
+-   You find yourself using mouse too often
+
+-   You often struggle to find the right command or option
+:::
 :::
 
 ## VS Code!
@@ -114,9 +123,9 @@ set.seed(20241022)
 
 ## Let's go get it
 
-- Install VS Code [here](https://code.visualstudio.com/download)
+- Install VS Code at [code.visualstudio.com/download](https://code.visualstudio.com/download)
 
-- Install `languageserver` in [R]{.proglang}.
+- Install `languageserver` in [R]{.proglang}
 
 - Install the [R]{.proglang} extension for Visual Studio Code
   
@@ -127,9 +136,9 @@ set.seed(20241022)
 - To enhance the experience of using [R]{.proglang} in VS Code, the following packages are recommended:
 
   :::small-font
-  - `radian`: A modern [R]{.proglang} console that corrects many limitations of the official [R]{.proglang} terminal and supports many features such as syntax highlighting and auto-completion.
+  - `radian`: A modern [R]{.proglang} console that corrects many limitations of the official [R]{.proglang} terminal and supports many features such as syntax highlighting and auto-completion
 
-  - `httpgd`: An [R]{.proglang} package to provide a graphics device that asynchronously serves SVG graphics via HTTP and WebSockets. This package is required by the interactive plot viewer of the [R]{.proglang} extension for VS Code.
+  - `httpgd`: An [R]{.proglang} package to provide a graphics device that asynchronously serves SVG graphics via HTTP and WebSockets. This package is required by the interactive plot viewer of the [R]{.proglang} extension for VS Code
   :::
 
 # Git/GitHub {background-image="supp/git_hub.png" data-background-size=1200px}
@@ -167,6 +176,13 @@ set.seed(20241022)
 
 :::columns
 :::{.column width="50%"}
+**No, if**
+
+-   Project is primarily individual and does not involve extensive collaboration.
+
+-   Not comfortable with command-line tools or prefer simpler file management systems.
+:::
+:::{.column width="50%"}
 **Yes, if**
 
 -   Multiple co-authors and need to track changes in documents AND data
@@ -175,20 +191,14 @@ set.seed(20241022)
 
 -   You require a reliable backup system for your research files.
 :::
-
-:::{.column width="50%"}
-**No, if**
-
--   Project is primarily individual and does not involve extensive collaboration.
-
--   Not comfortable with command-line tools or prefer simpler file management systems.
-:::
 :::
 
 ## Different projects
 
 :::columns
-:::{.column style="margin-top: 5em; width:50%;"}
+:::{.column style="margin-top: 3em; width:50%;"}
+**No, if**
+
 ```{mermaid}
 %%{init: {
   'theme': 'base',
@@ -204,7 +214,9 @@ gitGraph
 
 :::
 
-:::{.column style="margin-top: 5em; width:50%;"}
+:::{.column style="margin-top: 3em; width:50%;"}
+**Yes, if**
+
 ```{mermaid}
 %%{init: {
   'theme': 'base',
@@ -326,7 +338,7 @@ things we either don't want to share with the internet, things that don't
 change, or very big things like simulation data.
 :::
 
-## Git Branching
+## Git branching
 
 <br>
 
@@ -372,10 +384,10 @@ change, or very big things like simulation data.
 :::
 
 :::{.notes}
-- Branching allows you to work on different features or fixes independently.
-- Always ensure your working directory is clean before switching branches.
-- Merging combines the changes from one branch into another.
-- Resolve any conflicts that arise during merging.
+- Branching allows you to work on different features or fixes independently
+- Always ensure your working directory is clean before switching branches
+- Merging combines the changes from one branch into another
+- Resolve any conflicts that arise during merging
 :::
 
 ## One does not simply...
@@ -396,9 +408,8 @@ change, or very big things like simulation data.
 :::
 
 :::{.notes}
-- Git has a vast array of commands, but you only need a few to be effective.
-- Don't stress about memorizing everything; focus on understanding the basics.
-- Use resources and tools to help you when you need them.
+- Git has a vast array of commands, but you only need a few to be effective
+- Use resources and tools to help you when you need them (auto-completion)
 :::
 
 ## Let's go get it
@@ -429,10 +440,6 @@ change, or very big things like simulation data.
 
 ## Quarto!
 
-There is no reason not to switch beyond entry costs!
-
-. . .
-
 1. It is fairly easy to start the switch
      
     -   If you used [R]{.proglang} Markdown before, then it is backward compatible
@@ -444,8 +451,9 @@ There is no reason not to switch beyond entry costs!
 
     - It is more versatile
     - Easier to read
-    - Allow to do many things
-    - Forces you to learn some new things that actually matter (e.g. YAML and HTML)
+    - Has Visual editor (for those who remember LyX)
+    - Allow to do many things (papers, presentation, code, webpages)
+    - Forces you to learn new _useful_ things (e.g. YAML and HTML)
 
 ## Papers
 
@@ -484,7 +492,7 @@ There is no reason not to switch beyond entry costs!
 
 -   Shines when used for interactive slides, data results and math
 
-## Executable Code
+## Executable code
 
 ```{r}
 #| echo: true
@@ -496,7 +504,7 @@ ggplot(mtcars, aes(hp, mpg, color = am)) +
   geom_smooth(formula = y ~ x, method = "loess")
 ```
 
-## Pretty Code {auto-animate="true"}
+## Pretty code {auto-animate="true"}
 
 -   Over 20 syntax highlighting themes available
 -   Default theme optimized for accessibility
@@ -513,7 +521,7 @@ function(input, output) {
 ```
 
 
-## Code Animations {auto-animate="true"}
+## Code animations {auto-animate="true"}
 
 -   Over 20 syntax highlighting themes available
 -   Default theme optimized for accessibility
@@ -533,7 +541,7 @@ function(input, output) {
 }
 ```
 
-## LaTeX Equations
+## LaTeX equations
 
 [MathJax](https://www.mathjax.org/) rendering of equations to HTML
 
@@ -572,6 +580,38 @@ a_{21}& =b_{21}&
 :::
 :::
 
+## Markdown tables
+
+:::columns
+
+::: {.column style="margin-top: 5em;"}
+
+``` markdown
+| Default | Left | Right | Center |
+|---------|:-----|------:|:------:|
+| 12      | 12   |    12 |   12   |
+| 123     | 123  |   123 |  123   |
+| 1       | 1    |     1 |   1    |
+
+: Demonstration of pipe table syntax
+```
+
+:::
+
+::: {.column .fragment style="margin-top: 4em;"}
+
+| Default | Left | Right | Center |
+|---------|:-----|------:|:------:|
+| 12      | 12   |    12 |   12   |
+| 123     | 123  |   123 |  123   |
+| 1       | 1    |     1 |   1    |
+
+: Demonstration of pipe table syntax
+
+:::
+
+:::
+
 ## Tabsets {.smaller .scrollable transition="slide"}
 
 ::: panel-tabset
@@ -584,6 +624,8 @@ ggplot(mtcars, aes(hp, mpg, color = am)) +
   geom_smooth(formula = y ~ x, method = "loess")
 ```
 
+
+
 ### Data
 
 ```{r}
@@ -592,7 +634,7 @@ knitr::kable(mtcars)
 :::
 
 
-## Interactive Slides {.smaller}
+## Interactive slides {.smaller}
 
 Include Jupyter widgets and htmlwidgets in your presentations
 
@@ -609,4 +651,31 @@ leaflet()  |>
 
 <br><br>
 
-- Installation instructions at <https://quarto.org/docs/get-started/> (or just Google) 
+
+- <https://quarto.org/>
+
+. . .
+
+- Additionally, you can download and install Quarto using:
+
+::: {.columns}
+
+:::: {.column}
+
+- [Homebrew](https://brew.sh/) (macOS/linux)
+
+```{.bash filename="Bash"}
+brew install quarto
+```
+
+::::
+
+:::: {.column}
+
+- [Chocolatey](https://chocolatey.org/) (Windows)
+
+```{.PowerShell filename="PowerShell"}
+choco install quarto
+```
+::::
+:::
