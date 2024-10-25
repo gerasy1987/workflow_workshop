@@ -35,14 +35,6 @@ pacman::p_load(tidyverse, webshot2)
 
 set.seed(20241022)
 
-webshot2::webshot(
-  url = "https://quarto.org/",
-  file = "01_presentation/supp/quarto-org.png",
-  vwidth = 1920 * 0.55,
-  vheight = 1080 * 0.55,
-  cliprect = "viewport"
-)
-
 ```
 
 ## Plan for today
@@ -463,11 +455,12 @@ change, or very big things like simulation data.
 
 -   Use executable chunks with code ` ``` `
 
--   Use Markdown natively, e.g. 
+-   Use [Markdown](https://www.markdownguide.org/cheat-sheet/) natively, e.g. 
     
     -   `*` around word will make it _italic_ and `**` will make it **bold**
     -   `#` for section, `##` for subsection, etc.
     -   `[]()` for links and `![]()` for images
+    -   Markdown tables instead of LaTeX nightmare
 
 ## Presentations
 
