@@ -1,0 +1,612 @@
+---
+title: "💻 Workflow..."
+author: Gosha Syunyaev
+date: today
+date-format: long
+center-title-slide: false
+title-slide-attributes:
+  data-background-image: "supp/programming-crazy.gif"
+  data-background-size: 1500px
+  data-background-position: "center"
+format: 
+  revealjs:
+    slide-number: c/t
+    code-fold: false
+    embed-resources: true
+    link-external-icon: true
+    link-external-newwindow: true
+    html-math-method: mathjax
+    self-contained-math: true
+    css: supp/styles.css
+    incremental: false
+    scrollable: false
+    transition: fade
+    self-contained: true
+editor: source
+fontsize: 32px
+---
+
+```{r}
+#| label: setup
+#| include: false
+#| eval: true
+
+pacman::p_load(tidyverse)
+
+set.seed(20241022)
+
+```
+
+## Plan for today
+
+<br>
+
+:::columns
+:::{.column width="50%"}
+**What you will learn**
+
+:::{.fragment}
+-   How to set up VS Code (and why?)
+-   How to use basic Git-Github combo
+-   How to use Quarto (in VS Code or RStudio)
+:::
+:::
+
+:::{.column width="50%"}
+**What you will not learn**
+  
+:::{.fragment}
+-   What is the absolute best setup 
+-   How to deal with the fact that co-authors use MS Word, Overleaf, etc.
+-   What is the meaning of life
+:::
+:::
+:::
+
+. . .
+
+- [github.com/gerasy1987/dotfiles](https://github.com/gerasy1987/dotfiles) contains links to materials we will go over
+
+# VS Code {background-image="supp/vscode.png" data-background-size=1200px}
+
+## VS Code?
+
+<br><br>
+
+:::columns
+:::{.column width="50%"}
+**Yes, if**
+
+-   You often have to jump between applications, e.g. RStudio or LaTeX editor
+
+-   You find yourself using mouse too often
+
+-   You often struggle to find the right command or option
+:::
+
+:::{.column width="50%"}
+**No, if**
+
+-   You only work in [R]{.proglang}
+
+-   You do not want to pay entry costs
+
+-   You get overwhelmed by the need for customization
+:::
+
+:::
+
+## VS Code!
+
+<br><br>
+
+-   One of the most used IDEs in the world (~14.24%) $\Rightarrow$ Many extensions
+
+-   Has extremely customizable interface
+
+-   Has outstanding keyboard shortcuts customization
+
+-   Works with anything (even has packages for Overleaf and Mathematica)
+
+-   Has an (overwhelming) number of packages working with LLMs
+
+## {background-image="supp/vscode_meme.png" background-size="1300px"}
+
+## Let's go get it
+
+- Install VS Code [here](https://code.visualstudio.com/download)
+
+- Install `languageserver` in [R]{.proglang}.
+
+- Install the [R]{.proglang} extension for Visual Studio Code
+  
+  :::small-font
+  - Code completion (IntelliSense) works out of the box!
+  :::
+
+- To enhance the experience of using [R]{.proglang} in VS Code, the following packages are recommended:
+
+  :::small-font
+  - `radian`: A modern [R]{.proglang} console that corrects many limitations of the official [R]{.proglang} terminal and supports many features such as syntax highlighting and auto-completion.
+
+  - `httpgd`: An [R]{.proglang} package to provide a graphics device that asynchronously serves SVG graphics via HTTP and WebSockets. This package is required by the interactive plot viewer of the [R]{.proglang} extension for VS Code.
+  :::
+
+# Git/GitHub {background-image="supp/git_hub.png" data-background-size=1200px}
+
+## What is Git?
+
+:::columns
+:::{.column width="50%"}
+**Git + GitHub**
+
+- **Version Control**: Provides a robust system that tracks changes and manages project history.
+
+- **Branching and Merging**: Supports branching and merging, enabling isolated development of features or fixes.
+
+- **History and Reversion**: Maintains a detailed history of changes, allowing easy reversion to previous states.
+
+- **Offline Work**: Allows for offline work with local repositories.
+:::
+
+:::{.column width="50%"}
+**Dropbox/Overleaf/Google Docs**
+
+- **Real-time Collaboration**: More suited for simpler, real-time collaboration.
+
+- **Limited Branching**: Does not inherently support branching and merging.
+
+- **Basic Versioning**: Focuses on file versioning without detailed change tracking.
+
+- **Online Requirement**: Requires internet access for syncing and collaboration.
+:::
+:::
+
+
+## Git?
+
+:::columns
+:::{.column width="50%"}
+**Yes, if**
+
+-   Multiple co-authors and need to track changes in documents AND data
+
+-   Need to maintain a clear history of your project's development and revisions.
+
+-   You require a reliable backup system for your research files.
+:::
+
+:::{.column width="50%"}
+**No, if**
+
+-   Project is primarily individual and does not involve extensive collaboration.
+
+-   Not comfortable with command-line tools or prefer simpler file management systems.
+:::
+:::
+
+## Different projects
+
+:::columns
+:::{.column style="margin-top: 5em; width:50%;"}
+```{mermaid}
+%%{init: {
+  'theme': 'base',
+  'gitGraph': {'showCommitLabel': false, 'parallelCommits': true}
+  } }%%
+gitGraph
+   commit id: "Initial commit" tag: "Initial"
+   commit
+   commit tag: "Pretty figures"
+   commit
+   commit tag: "Journal submission"
+```
+
+:::
+
+:::{.column style="margin-top: 5em; width:50%;"}
+```{mermaid}
+%%{init: {
+  'theme': 'base',
+  'gitGraph': {'showCommitLabel': false, 'parallelCommits': true}
+  } }%%
+gitGraph
+   commit id: "Initial commit" tag: "Initial"
+   commit
+   branch Jimbo
+   checkout Jimbo
+   commit tag: "Nice figures"
+   checkout main
+   branch Gosha
+   checkout Gosha
+   commit
+   checkout main
+   merge Jimbo
+   commit
+   checkout Gosha
+   merge main
+   commit tag: "Code speedup"
+   checkout Jimbo
+   commit
+   checkout main
+   merge Gosha
+   merge Jimbo
+   commit tag: "Journal submission"
+```
+:::
+:::
+
+## But how does Jimbo get access? {.small-font}
+
+-   via a remote _Hub_, like GitHub:
+
+. . .
+
+:::columns
+:::{.column width="45%"}
+1. Create a GitHub repo (if does not exist already)
+:::
+:::{.column style="margin-top: 1em; width:45%;"}
+```bash
+git init 
+```
+(under the hood)
+:::
+:::
+
+:::columns
+:::{.column width="45%"}
+2. Create a local copy of the repo
+:::
+:::{.column style="margin-top: 1em; width:45%;"}
+```bash
+git clone <repository-url> 
+```
+:::
+:::
+
+:::columns
+:::{.column width="45%"}
+3. Do some work
+:::
+:::{.column style="margin-top: 1em; width:45%;"}
+Git won't help 
+:::
+:::
+
+:::columns
+:::{.column width="45%"}
+4. _Stage_ and _Commit_ your work
+   - (optionally) selectively save files to commit to logically categorize work
+:::
+:::{.column style="margin-top: 1em; width:45%;"}
+```bash
+git add <file-name> # or . to add everything
+git commit -m "Your commit message"
+```
+:::
+:::
+
+:::columns
+:::{.column width="45%"}
+5. _Push_ your work back
+:::
+:::{.column style="margin-top: 1em; width:45%;"}
+```bash
+git push
+```
+:::
+:::
+
+-   We can interact with git directly via command line (terminal), or IDE like RStudio or VS Code
+
+:::{.notes}
+It all starts when we create an instance of git and we tell it to _track_
+certain files in a folder. 
+
+1. When the files are modified, Git knows the current state is different from
+the one it saved on the previous knot on the timeline.
+
+1. Once we modified something and we want to save our progress, we _stage_ the
+file. We tell git we're prepared to save a given file in it's current state for
+the next knot we create.
+  - We can choose which files we want to stage. For instance, you can make two
+  commits to separate work you did on the LaTeX paper and on the code so it's
+  easier to review in the future.
+
+1. When we want to save the state of the project as a whole we create a new knot
+on the timeline by telling git to _commit_. Git will save state of all of the
+_staged_ files we said we wanted to commit, and creates a tamper-proof point on
+the timeline we can come back to later. Each (commit/knot) has a unique name
+generated from the state of the project.
+  - Each commit has a small comment so you can review changes in the future.
+
+- Theres's and extra state: Ignored. We can tell git to not record chanegs on
+things we either don't want to share with the internet, things that don't
+change, or very big things like simulation data.
+:::
+
+## Git Branching
+
+<br>
+
+:::columns
+:::{.column width="50%"}
+**Creating and Switching Branches**
+
+- Create a new branch:
+  ```bash
+  git branch <branch-name>
+  ```
+
+- Switch to a branch:
+  ```bash
+  git checkout <branch-name>
+  ```
+
+- Create and switch to a new branch:
+  ```bash
+  git checkout -b <branch-name>
+  ```
+
+:::
+:::{.column width="50%"}
+**Merging Branches**
+
+- Merge a branch into the current branch:
+  ```bash
+  git merge <branch-name>
+  ```
+
+- Delete a branch after merging:
+  ```bash
+  git branch -d <branch-name>
+  ```
+
+- Force delete a branch:
+  ```bash
+  git branch -D <branch-name>
+  ```
+
+:::
+:::
+
+:::{.notes}
+- Branching allows you to work on different features or fixes independently.
+- Always ensure your working directory is clean before switching branches.
+- Merging combines the changes from one branch into another.
+- Resolve any conflicts that arise during merging.
+:::
+
+## One does not simply...
+
+:::columns
+:::{.column width="55%"}
+**You Don't Need to Remember All Git Commands**
+
+- It's impossible to remember every single Git command
+- Focus on mastering a few essential commands
+- Use `git help` or online resources for the rest
+- Embrace the power of AI and auto-complete from history
+
+:::
+:::{.column width="40%"}
+![](https://res.cloudinary.com/practicaldev/image/fetch/s--NUSRQ-3J--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.redd.it/5iphhycu0io11.png)
+:::
+:::
+
+:::{.notes}
+- Git has a vast array of commands, but you only need a few to be effective.
+- Don't stress about memorizing everything; focus on understanding the basics.
+- Use resources and tools to help you when you need them.
+:::
+
+## Let's go get it
+
+<br><br>
+
+- Installation instructions at [git-scm.com/book/en/v2/Getting-Started-Installing-Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) (or just Google) 
+
+- clone two repositories:
+
+    - [https://github.com/gerasy1987/workflow_workshop.git](https://github.com/gerasy1987/workflow_workshop.git)
+    - [https://github.com/gerasy1987/dotfiles](https://github.com/gerasy1987/dotfiles)
+
+# Quarto {background-image="supp/quarto.jpg" data-background-size=1200px}
+
+## Quarto?
+
+-   An open-source scientific and technical publishing system
+
+-   Allows you to bring together everything:
+    
+    -   LaTeX + Markdown + HTML for text editing
+    -   R/Python/Julia for statistics
+    -   Produce manuscripts, presentations, dashboards, websites...
+    -   Produce output in PDF, HTML or Word format
+
+## There is no reason not to switch beyond entry costs! {.center auto-animate="true"}
+
+## Quarto!
+
+There is no reason not to switch beyond entry costs!
+
+. . .
+
+1. It is fairly easy to start the switch
+     
+    -   If you used [R]{.proglang} Markdown before, then it is backward compatible
+    -   If you used raw [LaTeX]{.proglang} the only new thing to learn how to switch is YAML preamble
+
+. . .
+
+2. It is better than alternative in any respect
+
+    - It is more versatile
+    - Easier to read
+    - Allow to do many things
+    - Forces you to learn some new things that actually matter (e.g. YAML and HTML)
+
+## Papers
+
+<br>
+
+-   Write papers as normal
+
+-   Use executable chunks with code ` ``` `
+
+-   Use Markdown natively, e.g. 
+    
+    -   `*` around word will make it _italic_ and `**` will make it **bold**
+    -   `#` for section, `##` for subsection, etc.
+    -   `[]()` for links and `![]()` for images
+
+## Presentations
+
+<br><br>
+
+-   beamer for LaTeX slides
+
+-   Powerpoint for when you have to collaborate via Office
+
+-   [Revealjs](https://quarto.org/docs/presentations/revealjs/) -- essentially the replacement for xaringan, but with Pandoc-native syntax
+    
+
+## Revealjs
+
+<br><br>
+
+-   _revealjs_ is an open source HTML presentation framework
+
+-   Enables anyone with a web browser to create fully-featured and beautiful presentations for free.
+
+-   revealjs for Quarto is a framework for turning Pandoc-friendly markdown + code into beautiful slides
+
+-   Shines when used for interactive slides, data results and math
+
+## Executable Code
+
+```{r}
+#| echo: true
+#| fig-width: 10
+#| fig-height: 4.5
+library(ggplot2)
+ggplot(mtcars, aes(hp, mpg, color = am)) +
+  geom_point() +
+  geom_smooth(formula = y ~ x, method = "loess")
+```
+
+## Pretty Code {auto-animate="true"}
+
+-   Over 20 syntax highlighting themes available
+-   Default theme optimized for accessibility
+
+``` r
+# Define a server for the Shiny app
+function(input, output) {
+  
+  # Fill in the spot we created for a plot
+  output$phonePlot <- renderPlot({
+    # Render a barplot
+  })
+}
+```
+
+
+## Code Animations {auto-animate="true"}
+
+-   Over 20 syntax highlighting themes available
+-   Default theme optimized for accessibility
+
+``` r
+# Define a server for the Shiny app
+function(input, output) {
+  
+  # Fill in the spot we created for a plot
+  output$phonePlot <- renderPlot({
+    # Render a barplot
+    barplot(WorldPhones[,input$region]*1000, 
+            main=input$region,
+            ylab="Number of Telephones",
+            xlab="Year")
+  })
+}
+```
+
+## LaTeX Equations
+
+[MathJax](https://www.mathjax.org/) rendering of equations to HTML
+
+::: columns
+::: {.column style="margin-top: 2em; width:40%;"}
+``` tex
+\begin{gather*}
+a_1=b_1+c_1\\
+a_2=b_2+c_2-d_2+e_2
+\end{gather*}
+
+\begin{align}
+a_{11}& =b_{11}&
+  a_{12}& =b_{12}\\
+a_{21}& =b_{21}&
+  a_{22}& =b_{22}+c_{22}
+\end{align}
+```
+:::
+
+::: {.column width="60%"}
+```{=tex}
+\begin{gather*}
+a_1=b_1+c_1\\
+a_2=b_2+c_2-d_2+e_2
+\end{gather*}
+```
+```{=tex}
+\begin{align}
+a_{11}& =b_{11}&
+  a_{12}& =b_{12}\\
+a_{21}& =b_{21}&
+  a_{22}& =b_{22}+c_{22}
+\end{align}
+```
+:::
+:::
+
+## Tabsets {.smaller .scrollable transition="slide"}
+
+::: panel-tabset
+### Plot
+
+```{r}
+library(ggplot2)
+ggplot(mtcars, aes(hp, mpg, color = am)) +
+  geom_point() +
+  geom_smooth(formula = y ~ x, method = "loess")
+```
+
+### Data
+
+```{r}
+knitr::kable(mtcars)
+```
+:::
+
+
+## Interactive Slides {.smaller}
+
+Include Jupyter widgets and htmlwidgets in your presentations
+
+```{r}
+#| echo: false
+#| fig-height: 5
+pacman::p_load(leaflet)
+leaflet()  |> 
+  addTiles()  |>   # Add default OpenStreetMap map tiles
+  addMarkers(lng=174.768, lat=-36.852, popup="The birthplace of R")
+```
+
+## Let's go get it
+
+<br><br>
+
+- Installation instructions at <https://quarto.org/docs/get-started/> (or just Google) 
